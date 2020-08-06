@@ -112,6 +112,58 @@ JSON;
         $this->assertJsonStringEqualsJsonString($expected, $response->getContent());
     }
 
+    public function testListCategoriesByParent()
+    {
+        $search = '{"parent":[{"operator":"IN","value":["categoryA"]}]}';
+        $searchEncoded = $this->encodeStringWithSymfonyUrlGeneratorCompatibility($search);
+
+        $client = $this->createAuthenticatedClient();
+        $client->request('GET', 'api/rest/v1/categories?with_count=true&search=' . $search);
+
+        $expected = <<<JSON
+{
+    "_links": {
+        "self": {
+            "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=true&search={$searchEncoded}"
+        },
+        "first": {
+            "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=true&search={$searchEncoded}"
+        }
+    },
+    "current_page": 1,
+    "items_count": 2,
+    "_embedded": {
+        "items": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://localhost/api/rest/v1/categories/categoryA1"
+                    }
+                },
+                "code": "categoryA1",
+                "parent": "categoryA",
+                "labels": {}
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://localhost/api/rest/v1/categories/categoryA2"
+                    }
+                },
+                "code": "categoryA2",
+                "parent": "categoryA",
+                "labels": {}
+            }
+        ]
+    }
+}
+JSON;
+
+        $response = $client->getResponse();
+        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertJsonStringEqualsJsonString($expected, $response->getContent());
+    }
+
     public function testListCategoriesWithCount()
     {
         $client = $this->createAuthenticatedClient();
