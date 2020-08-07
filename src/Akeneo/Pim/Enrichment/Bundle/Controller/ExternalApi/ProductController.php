@@ -408,9 +408,8 @@ class ProductController
         $data['identifier'] = array_key_exists('identifier', $data) ? $data['identifier'] : $code;
         $data = $this->populateIdentifierProductValue($data);
 
-        if (!$isCreation) {
-            $data = $this->filterEmptyValues($product, $data);
-        }
+        $data = $this->filterEmptyValues($product, $data);
+        
         if ($this->needUpdateFromProductToVariant($product, $data, $isCreation)) {
             try {
                 $product = $this->addParent->to($product, (string) $data['parent']);

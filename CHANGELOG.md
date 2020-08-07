@@ -2,6 +2,7 @@
 
 ## Bug fixes
 
+- PIM-9391: API - a call with only a null price doesn't create the product
 - TIP-1513: Environment variables declared in the env were not loaded when using a compiled .env file
 - PIM-9274: Fix Yaml reader to display the number of lines read for incorrectly formatted files
 - TIP-1406: Add a tag to configure a DIC service based on a feature flag
