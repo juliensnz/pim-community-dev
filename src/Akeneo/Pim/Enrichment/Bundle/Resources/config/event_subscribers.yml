@@ -175,3 +175,9 @@ services:
             - '@doctrine'
         tags:
             - { name: kernel.event_subscriber }
+
+    Akeneo\Pim\Enrichment\Bundle\EventSubscriber\EventQueueTestProducer:
+        arguments:
+            - '@Symfony\Component\Messenger\MessageBusInterface'
+        tags:
+            - { name: kernel.event_subscriber }

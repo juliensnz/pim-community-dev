@@ -1,0 +1,3 @@
+services:
+    Akeneo\Connectivity\Connection\Infrastructure\MessageHandler\BusinessEventHandler:
+        tags: [messenger.message_handler]
