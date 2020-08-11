@@ -1,10 +1,10 @@
-name: Deploy
+name: Tag
 on:
   push:
     branches:
       - master
     paths:
-      - 'package.json'
+      - package.json
 jobs:
   master:
     runs-on: ubuntu-latest
@@ -16,6 +16,9 @@ jobs:
         with:
           node-version: 13.13
       - name: Create tag
-        run: git tag -a v$(node .github/workflows/get-version.js) -m "Version $(node .github/workflows/get-version.js)"
+        run: |
+          git config --global user.email "contact@akeneo.com" && \
+          git config --global user.name "Github Actions" && \
+          git tag -a v$(node .github/workflows/get-version.js) -m "Version $(node .github/workflows/get-version.js)"
       - name: Push tag
         run: git push origin v$(node .github/workflows/get-version.js)
