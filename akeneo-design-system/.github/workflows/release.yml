@@ -1,7 +1,5 @@
 on:
-  create:
-    tags:
-      - v*
+  create: tags
 
 name: Create Release
 jobs:
