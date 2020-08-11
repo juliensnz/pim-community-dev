@@ -19,7 +19,7 @@ jobs:
       - name: Install Packages
         run: cd akeneo-design-system && yarn install
       - name: Bump package version
-        run: cd akeneo-design-system && echo "::set-output name=new_version::$(node bump-version.js $GITHUB_EVENT_PATH)"
+        run: cd akeneo-design-system && node .github/workflows/bump-version.js $GITHUB_EVENT_PATH && echo "::set-output name=new_version::$(node .github/workflows/get-version.js)"
         id: generate_new_dsm_version
       - name: Push updated version
         run: |

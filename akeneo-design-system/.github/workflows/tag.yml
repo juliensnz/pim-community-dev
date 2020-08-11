@@ -1,0 +1,21 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'package.json'
+jobs:
+  master:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout:master
+        uses: actions/checkout@master
+      - name: Use Node.js 13
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13.13
+      - name: Create tag
+        run: git tag -a v$(node .github/workflows/get-version.js) -m "Version $(node .github/workflows/get-version.js)"
+      - name: Push tag
+        run: git push origin v$(node .github/workflows/get-version.js)
