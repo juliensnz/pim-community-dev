@@ -1,5 +1,10 @@
 on:
-  push: tags
+  push:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - master
+    tags:
+      - 'v*'
 
 name: Create Release
 jobs:
