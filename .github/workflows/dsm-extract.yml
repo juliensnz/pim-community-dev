@@ -2,12 +2,12 @@ name: Extract DSM
 on:
   push:
     branches:
-      - dsm
+      - dsm # This should be changed to "master"
     paths:
       - 'akeneo-design-system/**'
 jobs:
-  build:
-    name: Create a lib build
+  prepare:
+    name: Prepare extraction
     runs-on: ubuntu-latest
     steps:
       - name: checkout:master
@@ -28,7 +28,7 @@ jobs:
           git add akeneo-design-system/package.json && \
           git commit -m "Bump to version ${{steps.generate_new_dsm_version.outputs.new_version}}" && \
           git push
-      - name: Build page
+      - name: Build lib
         run: cd akeneo-design-system && yarn run lib:build:prod
       - uses: actions/upload-artifact@v1
         with:
@@ -37,7 +37,7 @@ jobs:
 
   extract:
     name: Extract to DSM dedicated repo
-    needs: build
+    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - name: checkout:master
@@ -53,7 +53,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
           source-directory: akeneo-design-system
-          destination-github-username: 'juliensnz'
-          destination-repository-name: 'dsm'
+          destination-github-username: 'juliensnz' # This should be changed to "akeneo"
+          destination-repository-name: 'dsm' # Define a proper name maybe
           user-email: contact@akeneo.com
           destination-branch: 'master'
